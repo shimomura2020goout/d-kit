@@ -2,12 +2,12 @@
   <!-- Background Circle with Gradient -->
   <defs>
     <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#7B68EE;stop-opacity:1" />
+      <stop offset="0%" style="stop-color:#ff6347;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff8c69;stop-opacity:1" />
     </linearGradient>
     <linearGradient id="wandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff6347;stop-opacity:1" />
     </linearGradient>
   </defs>
 
@@ -16,17 +16,17 @@
 
   <!-- Color Palette Grid (4 squares) -->
   <g transform="translate(140, 160)">
-    <!-- Top Left - Blue -->
-    <rect x="0" y="0" width="90" height="90" rx="12" fill="#50E3C2"/>
+    <!-- Top Left - Tomato -->
+    <rect x="0" y="0" width="90" height="90" rx="12" fill="#ff6347"/>
 
-    <!-- Top Right - Purple -->
-    <rect x="110" y="0" width="90" height="90" rx="12" fill="#B8A4F5"/>
+    <!-- Top Right - Coral -->
+    <rect x="110" y="0" width="90" height="90" rx="12" fill="#ff8c69"/>
 
-    <!-- Bottom Left - Orange -->
-    <rect x="0" y="110" width="90" height="90" rx="12" fill="#FFA574"/>
+    <!-- Bottom Left - Light Coral -->
+    <rect x="0" y="110" width="90" height="90" rx="12" fill="#ffb399"/>
 
-    <!-- Bottom Right - Yellow -->
-    <rect x="110" y="110" width="90" height="90" rx="12" fill="#FFE066"/>
+    <!-- Bottom Right - Deep Red -->
+    <rect x="110" y="110" width="90" height="90" rx="12" fill="#ff4757"/>
   </g>
 
   <!-- Magic Wand Icon (Style Application Symbol) -->
