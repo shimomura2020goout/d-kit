@@ -25,6 +25,8 @@ function sendMessage(message) {
 function handleExportKit() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            // dynamic-page の場合、全ページをロードする必要がある
+            yield figma.loadAllPagesAsync();
             const fileName = figma.root.name;
             // ローカルスタイルを取得（非同期版を使用）
             const localPaintStyles = yield figma.getLocalPaintStylesAsync();
@@ -199,6 +201,8 @@ function handleKitSelected(kitName) {
 function handleApplyKit(kitName) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            // dynamic-page の場合、全ページをロードする必要がある
+            yield figma.loadAllPagesAsync();
             // 選択レイヤーのチェック
             if (figma.currentPage.selection.length === 0) {
                 sendMessage({
@@ -524,6 +528,8 @@ function getFontWeight(style) {
 function handleFocusNode(nodeId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            // dynamic-page の場合、全ページをロードする必要がある
+            yield figma.loadAllPagesAsync();
             const node = figma.getNodeById(nodeId);
             if (!node) {
                 figma.notify('対象のノードが見つかりません', { error: true });
@@ -545,6 +551,8 @@ function handleFocusNode(nodeId) {
 function handleUndoChange(change) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            // dynamic-page の場合、全ページをロードする必要がある
+            yield figma.loadAllPagesAsync();
             const node = figma.getNodeById(change.nodeId);
             if (!node) {
                 sendMessage({
@@ -614,6 +622,8 @@ function handleUndoChange(change) {
 function handleUndoAll(changes) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            // dynamic-page の場合、全ページをロードする必要がある
+            yield figma.loadAllPagesAsync();
             let successCount = 0;
             let errorCount = 0;
             // 変更を逆順で元に戻す（最後の変更から戻す）

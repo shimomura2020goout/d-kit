@@ -123,6 +123,9 @@ function sendMessage(message: MessageToUI) {
 
 async function handleExportKit() {
   try {
+    // dynamic-page の場合、全ページをロードする必要がある
+    await figma.loadAllPagesAsync();
+
     const fileName = figma.root.name;
 
     // ローカルスタイルを取得（非同期版を使用）
@@ -308,6 +311,9 @@ async function handleKitSelected(kitName: string) {
 
 async function handleApplyKit(kitName: string) {
   try {
+    // dynamic-page の場合、全ページをロードする必要がある
+    await figma.loadAllPagesAsync();
+
     // 選択レイヤーのチェック
     if (figma.currentPage.selection.length === 0) {
       sendMessage({
@@ -687,6 +693,9 @@ function getFontWeight(style: string): number {
 // ノードにフォーカスする処理
 async function handleFocusNode(nodeId: string) {
   try {
+    // dynamic-page の場合、全ページをロードする必要がある
+    await figma.loadAllPagesAsync();
+
     const node = figma.getNodeById(nodeId);
 
     if (!node) {
@@ -710,6 +719,9 @@ async function handleFocusNode(nodeId: string) {
 // 個別の変更を元に戻す
 async function handleUndoChange(change: Change) {
   try {
+    // dynamic-page の場合、全ページをロードする必要がある
+    await figma.loadAllPagesAsync();
+
     const node = figma.getNodeById(change.nodeId);
 
     if (!node) {
@@ -781,6 +793,9 @@ async function handleUndoChange(change: Change) {
 // 全ての変更を元に戻す
 async function handleUndoAll(changes: Change[]) {
   try {
+    // dynamic-page の場合、全ページをロードする必要がある
+    await figma.loadAllPagesAsync();
+
     let successCount = 0;
     let errorCount = 0;
 
