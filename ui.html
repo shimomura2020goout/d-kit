@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Design Kit Transformer</title>
+  <style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #333;
+  background: #f5f5f5;
+  padding: 0;
+  margin: 0;
+}
+
+#app {
+  background: white;
+  min-height: 100vh;
+}
+
+header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.step-section {
+  padding: 24px 20px;
+}
+
+.step-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+}
+
+.description {
+  color: #666;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.divider {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 0 20px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.btn-primary {
+  background: #667eea;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #5568d3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.btn-secondary {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.btn-secondary:hover {
+  background: #e0e0e0;
+}
+
+.btn-small {
+  padding: 6px 12px;
+  font-size: 11px;
+  width: auto;
+  margin-left: 8px;
+}
+
+.btn-link {
+  background: transparent;
+  color: #667eea;
+  text-decoration: underline;
+  padding: 4px 0;
+  margin-top: 12px;
+  font-size: 12px;
+}
+
+.btn-link:hover {
+  color: #5568d3;
+}
+
+#kit-list-container {
+  margin-bottom: 16px;
+}
+
+#kit-list-container label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.kit-select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  background: white;
+  cursor: pointer;
+}
+
+.kit-select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.status-message {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  display: none;
+}
+
+.status-message.info,
+.status-message.success,
+.status-message.error {
+  display: block;
+}
+
+.status-message.info {
+  background: #e3f2fd;
+  color: #1976d2;
+  border-left: 3px solid #1976d2;
+}
+
+.status-message.success {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-left: 3px solid #2e7d32;
+}
+
+.status-message.error {
+  background: #ffebee;
+  color: #c62828;
+  border-left: 3px solid #c62828;
+}
+
+.capabilities-box {
+  background: #f8f9ff;
+  border: 1px solid #e0e5ff;
+  border-radius: 6px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.capabilities-box h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.capabilities-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.capabilities-box li {
+  padding: 6px 0;
+  font-size: 12px;
+  color: #555;
+}
+
+.capabilities-box .detail {
+  color: #999;
+  font-size: 11px;
+  margin-left: 4px;
+}
+
+.prompt-box {
+  background: #fff9e6;
+  border: 1px solid #ffe066;
+  border-radius: 6px;
+  padding: 14px;
+  margin: 16px 0;
+}
+
+.prompt-box p {
+  font-size: 12px;
+  color: #665500;
+  margin-bottom: 4px;
+}
+
+.prompt-box p:last-child {
+  margin-bottom: 0;
+}
+
+.changes-container {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.change-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fafafa;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.change-item:hover {
+  background: #f0f0ff;
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+}
+
+.change-item.more {
+  justify-content: center;
+  color: #999;
+  font-style: italic;
+  background: transparent;
+  border: none;
+}
+
+.change-number {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  background: #667eea;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.change-content {
+  flex: 1;
+}
+
+.change-description {
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.change-detail {
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+.node-name {
+  font-weight: 500;
+  color: #667eea;
+}
+
+.change-values {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-family: 'Monaco', 'Courier New', monospace;
+}
+
+.before {
+  color: #c62828;
+  background: #ffebee;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.arrow {
+  color: #999;
+}
+
+.after {
+  color: #2e7d32;
+  background: #e8f5e9;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.undo-btn {
+  padding: 4px 10px;
+  font-size: 11px;
+  background: #ff9800;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.undo-btn:hover {
+  background: #f57c00;
+  transform: scale(1.05);
+}
+
+.undo-btn:active {
+  transform: scale(0.95);
+}
+
+.undo-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.undo-all-btn {
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 13px;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.undo-all-btn:hover {
+  background: #d32f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+}
+
+.undo-all-btn:active {
+  transform: translateY(0);
+}
+
+.changes-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.changes-container::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 4px;
+}
+
+.changes-container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.changes-container::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+.export-section {
+  background: #fafafa;
+  border-top: 1px solid #e0e0e0;
+  padding: 20px;
+  margin-top: 16px;
+}
+
+.export-section.collapsed {
+  padding: 12px 20px;
+}
+
+.export-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.export-toggle h3 {
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+}
+
+.export-toggle .arrow {
+  font-size: 16px;
+  color: #999;
+  transition: transform 0.2s;
+}
+
+.export-toggle .arrow.open {
+  transform: rotate(180deg);
+}
+
+.export-content {
+  margin-top: 16px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+}
+
+.empty-state-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.empty-state p {
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+  </style>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>Design Kit Transformer</h1>
+      <p class="subtitle">デザインキットのスタイルを簡単に適用</p>
+    </header>
+
+    <!-- メインワークフロー: デザインキットの適用 -->
+    <section id="step-apply" class="step-section">
+      <div class="step-header">
+        <h2>デザインキットを適用</h2>
+      </div>
+
+      <!-- 保存されたキット一覧 -->
+      <div id="kit-list-container">
+        <label for="kit-select">保存されたデザインキット:</label>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <select id="kit-select" class="kit-select" style="flex: 1;">
+            <option value="">キットを選択してください</option>
+          </select>
+          <button id="btn-refresh-kits" class="btn btn-small btn-secondary" title="キット一覧を更新">
+            🔄
+          </button>
+        </div>
+      </div>
+
+      <!-- キットが無い場合の表示 -->
+      <div id="empty-state" class="empty-state" style="display: none;">
+        <div class="empty-state-icon">📦</div>
+        <p><strong>デザインキットがまだ保存されていません</strong></p>
+        <p>下の「デザインキットを保存」から、<br>デザインキットファイルを保存してください。</p>
+      </div>
+
+      <!-- キットの機能情報 -->
+      <div id="kit-capabilities" class="capabilities-box" style="display: none;">
+        <h3>このキットで置き換え可能な要素:</h3>
+        <ul id="capabilities-list"></ul>
+      </div>
+
+      <!-- レイヤー選択の案内 -->
+      <div id="selection-prompt" class="prompt-box" style="display: none;">
+        <p><strong>次のステップ:</strong></p>
+        <p>Figmaキャンバスで変換したいレイヤー（フレーム/グループ/セクション）を選択してから、下のボタンを押してください。</p>
+      </div>
+
+      <button id="btn-apply" class="btn btn-primary" disabled>
+        選択レイヤーにデザインキットを適用
+      </button>
+      <div id="apply-status" class="status-message"></div>
+    </section>
+
+    <!-- 変更履歴 -->
+    <section id="changes-section" class="step-section" style="display: none;">
+      <div class="step-header">
+        <h2>適用された変更</h2>
+      </div>
+      <div id="changes-list" class="changes-container"></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- エクスポート機能（折りたたみ可能） -->
+    <section class="export-section collapsed" id="export-section">
+      <div class="export-toggle" id="export-toggle">
+        <h3>⚙️ デザインキットを保存・更新</h3>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="export-content" id="export-content" style="display: none;">
+        <p class="description">
+          <strong>デザインキットファイル</strong>を開いた状態で、下のボタンを押してください。<br>
+          カラー、テキストスタイル、エフェクト、コンポーネント情報が保存されます。<br>
+          <br>
+          <strong>💡 使い方:</strong><br>
+          ・<strong>初回保存:</strong> デザインキットファイルを開いて保存<br>
+          ・<strong>更新:</strong> デザインキットファイルを開いて再度保存（同じ名前のキットが上書きされます）<br>
+          ・<strong>適用:</strong> 適用したいファイルを開いて、上のセレクトボックスから保存済みキットを選択
+        </p>
+        <button id="btn-export" class="btn btn-secondary">
+          現在のファイルをデザインキットとして保存
+        </button>
+        <div id="export-status" class="status-message"></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const btnExport = document.getElementById('btn-export');
+    const btnApply = document.getElementById('btn-apply');
+    const btnRefreshKits = document.getElementById('btn-refresh-kits');
+    const kitSelect = document.getElementById('kit-select');
+    const exportStatus = document.getElementById('export-status');
+    const applyStatus = document.getElementById('apply-status');
+    const kitCapabilities = document.getElementById('kit-capabilities');
+    const capabilitiesList = document.getElementById('capabilities-list');
+    const selectionPrompt = document.getElementById('selection-prompt');
+    const changesSection = document.getElementById('changes-section');
+    const changesList = document.getElementById('changes-list');
+    const emptyState = document.getElementById('empty-state');
+    const exportToggle = document.getElementById('export-toggle');
+    const exportContent = document.getElementById('export-content');
+    const exportSection = document.getElementById('export-section');
+
+    // エクスポートセクションの開閉
+    exportToggle.addEventListener('click', () => {
+      const isOpen = exportContent.style.display !== 'none';
+      exportContent.style.display = isOpen ? 'none' : 'block';
+      exportSection.classList.toggle('collapsed', isOpen);
+      exportToggle.querySelector('.arrow').classList.toggle('open', !isOpen);
+    });
+
+    // エクスポート
+    btnExport.addEventListener('click', () => {
+      exportStatus.textContent = 'エクスポート中...';
+      exportStatus.className = 'status-message info';
+      parent.postMessage({ pluginMessage: { type: 'export-kit' } }, '*');
+    });
+
+    // キット一覧の読み込み
+    function loadKits() {
+      parent.postMessage({ pluginMessage: { type: 'load-kits' } }, '*');
+    }
+
+    // 更新ボタン
+    btnRefreshKits.addEventListener('click', () => {
+      loadKits();
+      applyStatus.textContent = 'キット一覧を更新しました';
+      applyStatus.className = 'status-message info';
+      setTimeout(() => {
+        applyStatus.className = 'status-message';
+      }, 2000);
+    });
+
+    // キット選択時
+    kitSelect.addEventListener('change', (e) => {
+      const kitName = e.target.value;
+      if (kitName) {
+        btnApply.disabled = false;
+        emptyState.style.display = 'none';
+        parent.postMessage({ pluginMessage: { type: 'kit-selected', kitName } }, '*');
+      } else {
+        btnApply.disabled = true;
+        kitCapabilities.style.display = 'none';
+        selectionPrompt.style.display = 'none';
+      }
+    });
+
+    // 適用
+    btnApply.addEventListener('click', () => {
+      const kitName = kitSelect.value;
+      if (!kitName) {
+        applyStatus.textContent = 'デザインキットを選択してください';
+        applyStatus.className = 'status-message error';
+        return;
+      }
+      applyStatus.textContent = '適用中...';
+      applyStatus.className = 'status-message info';
+      changesSection.style.display = 'none';
+      parent.postMessage({ pluginMessage: { type: 'apply-kit', kitName } }, '*');
+    });
+
+    // プラグインからのメッセージ受信
+    window.onmessage = async (event) => {
+      const msg = event.data.pluginMessage;
+
+      if (msg.type === 'export-complete') {
+        exportStatus.textContent = `✓ "${msg.kitName}" を保存しました`;
+        exportStatus.className = 'status-message success';
+        loadKits(); // 自動的にキット一覧を更新
+      }
+
+      else if (msg.type === 'export-error') {
+        exportStatus.textContent = `エラー: ${msg.message}`;
+        exportStatus.className = 'status-message error';
+      }
+
+      else if (msg.type === 'kits-loaded') {
+        kitSelect.innerHTML = '<option value="">キットを選択してください</option>';
+
+        if (msg.kits.length === 0) {
+          emptyState.style.display = 'block';
+          btnApply.disabled = true;
+        } else {
+          emptyState.style.display = 'none';
+          msg.kits.forEach(kit => {
+            const option = document.createElement('option');
+            option.value = kit.name;
+            option.textContent = `${kit.name} (${kit.exportedAt})`;
+            kitSelect.appendChild(option);
+          });
+        }
+      }
+
+      else if (msg.type === 'kit-capabilities') {
+        const cap = msg.capabilities;
+        capabilitiesList.innerHTML = '';
+
+        if (cap.colors > 0) {
+          const li = document.createElement('li');
+          li.innerHTML = `<strong>カラーパレット:</strong> ${cap.colors}色 <span class="detail">(${cap.colorNames.slice(0, 3).join(', ')}${cap.colorNames.length > 3 ? '...' : ''})</span>`;
+          capabilitiesList.appendChild(li);
+        }
+
+        if (cap.textStyles > 0) {
+          const li = document.createElement('li');
+          li.innerHTML = `<strong>テキストスタイル:</strong> ${cap.textStyles}種類 <span class="detail">(${cap.textStyleNames.slice(0, 3).join(', ')}${cap.textStyleNames.length > 3 ? '...' : ''})</span>`;
+          capabilitiesList.appendChild(li);
+        }
+
+        if (cap.effects > 0) {
+          const li = document.createElement('li');
+          li.innerHTML = `<strong>エフェクト:</strong> ${cap.effects}種類 <span class="detail">(${cap.effectNames.slice(0, 3).join(', ')}${cap.effectNames.length > 3 ? '...' : ''})</span>`;
+          capabilitiesList.appendChild(li);
+        }
+
+        if (cap.components > 0) {
+          const li = document.createElement('li');
+          li.innerHTML = `<strong>コンポーネント:</strong> ${cap.components}個 <span class="detail">(${cap.componentNames.slice(0, 3).join(', ')}${cap.componentNames.length > 3 ? '...' : ''})</span>`;
+          capabilitiesList.appendChild(li);
+        }
+
+        kitCapabilities.style.display = 'block';
+        selectionPrompt.style.display = 'block';
+      }
+
+      else if (msg.type === 'no-selection') {
+        applyStatus.textContent = msg.message;
+        applyStatus.className = 'status-message error';
+      }
+
+      else if (msg.type === 'apply-complete') {
+        applyStatus.textContent = `✓ 適用完了！ ${msg.changes.length}箇所を変更しました`;
+        applyStatus.className = 'status-message success';
+
+        // 変更履歴を表示（全件表示）
+        changesList.innerHTML = '';
+
+        // 全て戻すボタンを追加
+        const undoAllBtn = document.createElement('button');
+        undoAllBtn.className = 'undo-all-btn';
+        undoAllBtn.textContent = '🔄 全ての変更を元に戻す';
+        undoAllBtn.addEventListener('click', () => {
+          if (confirm(`${msg.changes.length}件の変更を全て元に戻しますか？`)) {
+            parent.postMessage({
+              pluginMessage: {
+                type: 'undo-all',
+                changes: msg.changes
+              }
+            }, '*');
+          }
+        });
+        changesList.appendChild(undoAllBtn);
+
+        msg.changes.forEach((change, index) => {
+          const div = document.createElement('div');
+          div.className = 'change-item';
+          div.setAttribute('data-node-id', change.nodeId);
+
+          const changeNumber = document.createElement('div');
+          changeNumber.className = 'change-number';
+          changeNumber.textContent = index + 1;
+
+          const changeContent = document.createElement('div');
+          changeContent.className = 'change-content';
+          changeContent.innerHTML = `
+            <div class="change-description">${change.description}</div>
+            <div class="change-detail">
+              <span class="node-name">${change.nodeName}</span> の ${change.property}
+            </div>
+            <div class="change-values">
+              <span class="before">${change.before}</span>
+              <span class="arrow">→</span>
+              <span class="after">${change.after}</span>
+            </div>
+          `;
+
+          // 元に戻すボタン
+          const undoBtn = document.createElement('button');
+          undoBtn.className = 'undo-btn';
+          undoBtn.textContent = '戻す';
+          undoBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            parent.postMessage({
+              pluginMessage: {
+                type: 'undo-change',
+                change: change
+              }
+            }, '*');
+            // ボタンを無効化して二重クリックを防ぐ
+            undoBtn.disabled = true;
+            undoBtn.textContent = '戻し中...';
+          });
+
+          div.appendChild(changeNumber);
+          div.appendChild(changeContent);
+          div.appendChild(undoBtn);
+
+          // クリックイベントを追加（フォーカス）
+          changeContent.addEventListener('click', () => {
+            parent.postMessage({
+              pluginMessage: {
+                type: 'focus-node',
+                nodeId: change.nodeId
+              }
+            }, '*');
+          });
+
+          changesList.appendChild(div);
+        });
+
+        changesSection.style.display = 'block';
+      }
+
+      else if (msg.type === 'apply-error') {
+        applyStatus.textContent = `エラー: ${msg.message}`;
+        applyStatus.className = 'status-message error';
+      }
+
+      else if (msg.type === 'undo-complete') {
+        applyStatus.textContent = `✓ ${msg.message}`;
+        applyStatus.className = 'status-message success';
+        // 成功した場合、変更履歴を非表示にする（全て戻した場合）
+        if (msg.message.includes('全て')) {
+          changesSection.style.display = 'none';
+        }
+      }
+
+      else if (msg.type === 'undo-error') {
+        applyStatus.textContent = `エラー: ${msg.message}`;
+        applyStatus.className = 'status-message error';
+      }
+    };
+
+    // 初期化時にキット一覧を読み込む
+    loadKits();
+  </script>
+</body>
+</html>

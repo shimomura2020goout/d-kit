@@ -1,0 +1,23 @@
+{
+  "name": "d-kit",
+  "version": "1.0.0",
+  "description": "A Figma plugin that transforms existing designs by applying styles from selected design kits",
+  "main": "code.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "author": "D-kit",
+  "license": "MIT",
+  "keywords": [
+    "figma",
+    "plugin",
+    "design-system",
+    "style-transfer",
+    "design-kit"
+  ],
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.90.0",
+    "typescript": "^5.3.3"
+  }
+}

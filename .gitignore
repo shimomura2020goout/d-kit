@@ -1,0 +1,7 @@
+node_modules/
+*.js.map
+.DS_Store
+
+# Figmaプラグインの実行に必要なファイルは除外しない
+!src/code.js
+!src/types.js

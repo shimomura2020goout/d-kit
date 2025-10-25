@@ -1,0 +1,48 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle with Gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7B68EE;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="wandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="115" fill="url(#bgGradient)"/>
+
+  <!-- Color Palette Grid (4 squares) -->
+  <g transform="translate(140, 160)">
+    <!-- Top Left - Blue -->
+    <rect x="0" y="0" width="90" height="90" rx="12" fill="#50E3C2"/>
+
+    <!-- Top Right - Purple -->
+    <rect x="110" y="0" width="90" height="90" rx="12" fill="#B8A4F5"/>
+
+    <!-- Bottom Left - Orange -->
+    <rect x="0" y="110" width="90" height="90" rx="12" fill="#FFA574"/>
+
+    <!-- Bottom Right - Yellow -->
+    <rect x="110" y="110" width="90" height="90" rx="12" fill="#FFE066"/>
+  </g>
+
+  <!-- Magic Wand Icon (Style Application Symbol) -->
+  <g transform="translate(340, 100)">
+    <!-- Wand stick -->
+    <rect x="0" y="40" width="16" height="120" rx="8" fill="url(#wandGradient)" transform="rotate(-45 8 100)"/>
+
+    <!-- Stars around wand tip -->
+    <circle cx="10" cy="30" r="6" fill="#FFFFFF"/>
+    <circle cx="30" cy="10" r="4" fill="#FFFFFF" opacity="0.8"/>
+    <circle cx="35" cy="35" r="5" fill="#FFFFFF" opacity="0.9"/>
+
+    <!-- Sparkle effect -->
+    <path d="M 15 15 L 17 20 L 22 22 L 17 24 L 15 29 L 13 24 L 8 22 L 13 20 Z" fill="#FFFFFF" opacity="0.7"/>
+  </g>
+
+  <!-- Letter "D" at bottom right -->
+  <text x="420" y="460" font-family="Arial, sans-serif" font-size="140" font-weight="bold" fill="#FFFFFF" opacity="0.3">D</text>
+</svg>

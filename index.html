@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="D-kit - Transform your existing designs by applying styles from any design kit. A powerful Figma plugin for design teams.">
+    <meta name="keywords" content="Figma, plugin, design-system, style-transfer, design-kit, D-kit">
+    <meta name="author" content="D-kit">
+    <title>D-kit - Figma Plugin | Design Kit Transformer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #f8f9fa;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .header .badges {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Section */
+        .section {
+            background: white;
+            margin: 40px 0;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            font-size: 1.5rem;
+            margin: 25px 0 15px 0;
+            color: #764ba2;
+        }
+
+        /* Feature Cards */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin: 0 0 15px 0;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: #555;
+            line-height: 1.7;
+        }
+
+        /* Usage Steps */
+        .steps {
+            counter-reset: step-counter;
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .steps li {
+            counter-increment: step-counter;
+            position: relative;
+            padding: 20px 20px 20px 70px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #764ba2;
+        }
+
+        .steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Tech Stack */
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .tech-badge {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border: 2px solid #90caf9;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        table tr:hover {
+            background: #f5f7fa;
+        }
+
+        /* Code Block */
+        code {
+            background: #282c34;
+            color: #61dafb;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        /* Links */
+        a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+
+        .footer a {
+            color: #50e3c2;
+        }
+
+        /* Highlight Box */
+        .highlight {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+
+        .highlight strong {
+            color: #856404;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: #e3f2fd;
+            border-left: 5px solid #2196f3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+            }
+
+            .section {
+                padding: 25px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>✨ D-kit</h1>
+        <p>Transform your existing designs by applying styles from any design kit</p>
+        <div class="badges">
+            <span class="badge">🎨 Design Systems</span>
+            <span class="badge">⚡ Productivity</span>
+            <span class="badge">🔄 Style Transfer</span>
+            <span class="badge">📦 Free & Open Source</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <div class="section">
+            <h2>📖 概要</h2>
+            <p><strong>D-kit</strong>は、既存のデザインを選択したデザインキット（Figma Communityファイルなど）のスタイルで自動的に置き換えるFigmaプラグインです。デザインシステムの適用、ブランドリニューアル、スタイルガイドの変更などを効率化します。</p>
+
+            <div class="info-box">
+                <strong>🎯 こんな方におすすめ</strong>
+                <ul>
+                    <li>ランディングページのリブランディングを素早く行いたいキャンペーンデザイナー</li>
+                    <li>複数のブランドバリエーションを管理するデザインチーム</li>
+                    <li>Figma Communityのデザインシステムを活用するデザイナー</li>
+                    <li>異なるスタイルの方向性を試してみたい方</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="section">
+            <h2>✨ 主な機能</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <h3>📦 デザインキットのエクスポート</h3>
+                    <p>任意のFigmaファイルからカラースタイル、テキストスタイル、エフェクト、コンポーネント情報を保存。一度保存すれば、どのファイルからでも利用可能です。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎯 自動スタイルマッチング</h3>
+                    <p>近接アルゴリズムを使用して色をインテリジェントにマッチング。フォントサイズに基づいてテキストスタイルを適用します。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📊 変更履歴の可視化</h3>
+                    <p>デザインキット適用後に何が変更されたかを詳細に表示。適用された変更を一覧で確認できます。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔒 非破壊ワークフロー</h3>
+                    <p>オリジナルレイヤーの複製を作成するため、いつでも元に戻せます。安心して試行錯誤できます。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>💾 ローカルストレージ</h3>
+                    <p>デザインキットはローカルに保存され、すべてのFigmaファイルで利用可能。ネットワークアクセス不要です。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⚡ 高速処理</h3>
+                    <p>効率的なアルゴリズムにより、大量の要素でも高速に処理。ストレスフリーなワークフローを実現します。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- How to Use Section -->
+        <div class="section">
+            <h2>🚀 使い方</h2>
+
+            <h3>初回セットアップ: デザインキットを保存</h3>
+            <p>デザインキットを初めて使う場合のみ、以下の手順で保存してください：</p>
+            <ol class="steps">
+                <li>デザインキットとして使用したいFigmaファイルを開く（Figma Communityから複製したファイルでもOK）</li>
+                <li>プラグインを起動: <code>Plugins</code> > <code>D-kit</code></li>
+                <li>下部の「⚙️ デザインキットを保存（初回のみ）」セクションを展開</li>
+                <li>「現在のファイルをデザインキットとして保存」ボタンをクリック</li>
+                <li>成功メッセージが表示されれば完了</li>
+            </ol>
+
+            <div class="highlight">
+                <strong>💡 ヒント:</strong> この操作は、新しいデザインキットを追加する場合のみ必要です。一度保存すれば、どのFigmaファイルからでも使用できます。
+            </div>
+
+            <h3>メインワークフロー: デザインキットを適用</h3>
+            <ol class="steps">
+                <li>作業ファイルを開く（既にデザインが作成されているファイル）</li>
+                <li>プラグインを起動: <code>Plugins</code> > <code>D-kit</code></li>
+                <li>ドロップダウンから保存済みのデザインキットを選択</li>
+                <li>Figmaキャンバスでレイヤーを選択（フレーム、グループ、セクションなど）</li>
+                <li>「選択レイヤーにデザインキットを適用」ボタンをクリック</li>
+                <li>元のレイヤーの横に「(変換済み)」という名前の複製が作成されます</li>
+                <li>「適用された変更」セクションで変更内容の詳細を確認</li>
+            </ol>
+        </div>
+
+        <!-- Technical Details Section -->
+        <div class="section">
+            <h2>🔧 技術仕様</h2>
+
+            <h3>主要な処理アルゴリズム</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>処理</th>
+                        <th>アルゴリズム</th>
+                        <th>詳細</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>カラーマッチング</td>
+                        <td>ユークリッド距離</td>
+                        <td>RGB色空間で最も近い色を選択</td>
+                    </tr>
+                    <tr>
+                        <td>テキストスタイル</td>
+                        <td>フォントサイズ比較</td>
+                        <td>最も近いフォントサイズのスタイルを適用</td>
+                    </tr>
+                    <tr>
+                        <td>角丸の正規化</td>
+                        <td>最近傍</td>
+                        <td>一般的な値（4, 8, 16px等）に丸める</td>
+                    </tr>
+                    <tr>
+                        <td>エフェクト適用</td>
+                        <td>直接適用</td>
+                        <td>デザインキットのエフェクトを適用</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>プロジェクト構造</h3>
+            <pre><code>202510-figma-plugin-trace-kit/
+├── manifest.json          # プラグイン設定
+├── package.json           # npm設定
+├── tsconfig.json          # TypeScript設定
+├── ui.html                # UIのHTML（CSSを含む）
+├── index.html             # GitHub Pages用ランディングページ
+└── src/
+    ├── code.ts            # メインロジック（型定義を含む）
+    ├── code.js            # ビルド済みJavaScript
+    └── types.ts           # 型定義</code></pre>
+
+            <h3>技術スタック</h3>
+            <div class="tech-list">
+                <span class="tech-badge">TypeScript</span>
+                <span class="tech-badge">Figma Plugin API</span>
+                <span class="tech-badge">HTML/CSS</span>
+                <span class="tech-badge">Local Storage API</span>
+            </div>
+
+            <h3>データ構造</h3>
+            <pre><code>interface DesignKit {
+  name: string;
+  sourceFile: string;
+  exportedAt: string;
+  colors: ColorStyle[];
+  textStyles: TextStyleData[];
+  effects: EffectStyle[];
+  components: ComponentData[];
+}</code></pre>
+        </div>
+
+        <!-- Development Info Section -->
+        <div class="section">
+            <h2>💻 開発情報</h2>
+
+            <h3>セットアップ手順</h3>
+            <pre><code># リポジトリをクローン
+git clone https://github.com/yourusername/d-kit.git
+cd d-kit
+
+# 依存関係をインストール
+npm install
+
+# TypeScriptをビルド
+npm run build
+
+# または、開発中は自動ビルド
+npm run watch</code></pre>
+
+            <h3>Figmaへのプラグイン追加</h3>
+            <ol>
+                <li>Figma Desktop Appを起動</li>
+                <li>メニューから <code>Plugins</code> > <code>Development</code> > <code>Import plugin from manifest...</code> を選択</li>
+                <li>このプロジェクトの <code>manifest.json</code> ファイルを選択</li>
+                <li>プラグインが開発プラグインとして追加されます</li>
+            </ol>
+
+            <h3>制限事項</h3>
+            <ul>
+                <li>Figma Plugin APIの制約により、Community fileに直接アクセスはできません</li>
+                <li>プラグインは現在開いているファイルのローカルデータのみ操作できます</li>
+                <li>複雑なグラデーション、画像フィルなどは部分的にしかサポートされません</li>
+                <li>パフォーマンス: 大量の要素（1000+）がある場合、処理に時間がかかる場合があります</li>
+            </ul>
+
+            <h3>将来の機能予定</h3>
+            <ul>
+                <li>デザインキットの複数保存と管理UI</li>
+                <li>再適用・上書き機能</li>
+                <li>カスタムマッピングルールの設定</li>
+                <li>バッチ処理機能</li>
+                <li>スタイルオーバーライドオプション</li>
+            </ul>
+        </div>
+
+        <!-- License & Links Section -->
+        <div class="section">
+            <h2>📄 ライセンス・リンク</h2>
+
+            <h3>ライセンス</h3>
+            <p>MITライセンスの下で公開されています。詳細は<a href="https://opensource.org/licenses/MIT" target="_blank">こちら</a>をご覧ください。</p>
+
+            <h3>関連リンク</h3>
+            <ul>
+                <li><a href="https://github.com/yourusername/d-kit" target="_blank">GitHub リポジトリ</a></li>
+                <li><a href="https://www.figma.com/community" target="_blank">Figma Community</a></li>
+                <li><a href="https://www.figma.com/plugin-docs/" target="_blank">Figma Plugin Documentation</a></li>
+            </ul>
+
+            <h3>貢献</h3>
+            <p>バグ報告や機能リクエストは、<a href="https://github.com/yourusername/d-kit/issues" target="_blank">GitHubのIssue</a>を作成してください。プルリクエストも歓迎します！</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 D-kit. All rights reserved.</p>
+        <p>Made with ❤️ by <a href="https://github.com/yourusername" target="_blank">D-kit Team</a></p>
+    </div>
+</body>
+</html>
