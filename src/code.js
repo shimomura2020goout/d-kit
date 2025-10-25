@@ -530,7 +530,7 @@ function handleFocusNode(nodeId) {
         try {
             // dynamic-page の場合、全ページをロードする必要がある
             yield figma.loadAllPagesAsync();
-            const node = figma.getNodeById(nodeId);
+            const node = yield figma.getNodeByIdAsync(nodeId);
             if (!node) {
                 figma.notify('対象のノードが見つかりません', { error: true });
                 return;
@@ -553,7 +553,7 @@ function handleUndoChange(change) {
         try {
             // dynamic-page の場合、全ページをロードする必要がある
             yield figma.loadAllPagesAsync();
-            const node = figma.getNodeById(change.nodeId);
+            const node = yield figma.getNodeByIdAsync(change.nodeId);
             if (!node) {
                 sendMessage({
                     type: 'undo-error',
@@ -629,7 +629,7 @@ function handleUndoAll(changes) {
             // 変更を逆順で元に戻す（最後の変更から戻す）
             for (const change of [...changes].reverse()) {
                 try {
-                    const node = figma.getNodeById(change.nodeId);
+                    const node = yield figma.getNodeByIdAsync(change.nodeId);
                     if (!node || !change.undoData) {
                         errorCount++;
                         continue;
