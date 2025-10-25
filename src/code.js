@@ -26,10 +26,10 @@ function handleExportKit() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const fileName = figma.root.name;
-            // ローカルスタイルを取得
-            const localPaintStyles = figma.getLocalPaintStyles();
-            const localTextStyles = figma.getLocalTextStyles();
-            const localEffectStyles = figma.getLocalEffectStyles();
+            // ローカルスタイルを取得（非同期版を使用）
+            const localPaintStyles = yield figma.getLocalPaintStylesAsync();
+            const localTextStyles = yield figma.getLocalTextStylesAsync();
+            const localEffectStyles = yield figma.getLocalEffectStylesAsync();
             const components = figma.root.findAll(node => node.type === 'COMPONENT');
             // カラースタイルの変換
             const colors = localPaintStyles.map(style => ({

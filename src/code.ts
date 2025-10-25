@@ -125,10 +125,10 @@ async function handleExportKit() {
   try {
     const fileName = figma.root.name;
 
-    // ローカルスタイルを取得
-    const localPaintStyles = figma.getLocalPaintStyles();
-    const localTextStyles = figma.getLocalTextStyles();
-    const localEffectStyles = figma.getLocalEffectStyles();
+    // ローカルスタイルを取得（非同期版を使用）
+    const localPaintStyles = await figma.getLocalPaintStylesAsync();
+    const localTextStyles = await figma.getLocalTextStylesAsync();
+    const localEffectStyles = await figma.getLocalEffectStylesAsync();
     const components = figma.root.findAll(node => node.type === 'COMPONENT') as ComponentNode[];
 
     // カラースタイルの変換
