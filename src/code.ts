@@ -184,9 +184,9 @@ async function handleExportKit() {
       description: style.description
     }));
 
-    // コンポーネント情報の取得（詳細版）
-    sendMessage({ type: 'export-progress', progress: 80, message: `${Math.min(components.length, 100)}個のコンポーネントを処理中...` });
-    const componentData: ComponentData[] = components.slice(0, 100).map(comp => ({
+    // コンポーネント情報の取得（詳細版 - 制限なし）
+    sendMessage({ type: 'export-progress', progress: 80, message: `${components.length}個のコンポーネントを処理中...` });
+    const componentData: ComponentData[] = components.map(comp => ({
       name: comp.name,
       id: comp.id,
       description: comp.description,
@@ -379,10 +379,10 @@ async function handleApplyKit(kitName: string) {
       duplicatedNode.name = `${selectedNode.name} (変換済み)`;
     }
 
-    // 変更内容を最大10件に制限して送信
+    // 変更内容を送信（制限なし）
     sendMessage({
       type: 'apply-complete',
-      changes: changes.slice(0, 50) // 最大50件
+      changes: changes
     });
 
     figma.notify(`✓ デザインキットを適用しました（${changes.length}箇所を変更）`);
