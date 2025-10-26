@@ -25,15 +25,23 @@ function sendMessage(message) {
 function handleExportKit() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            // 進捗通知: 開始
+            sendMessage({ type: 'export-progress', progress: 0, message: 'エクスポートを開始しています...' });
             // dynamic-page の場合、全ページをロードする必要がある
             yield figma.loadAllPagesAsync();
+            sendMessage({ type: 'export-progress', progress: 10, message: 'ページを読み込みました' });
             const fileName = figma.root.name;
             // ローカルスタイルを取得（非同期版を使用）
+            sendMessage({ type: 'export-progress', progress: 20, message: 'カラースタイルを取得中...' });
             const localPaintStyles = yield figma.getLocalPaintStylesAsync();
+            sendMessage({ type: 'export-progress', progress: 35, message: 'テキストスタイルを取得中...' });
             const localTextStyles = yield figma.getLocalTextStylesAsync();
+            sendMessage({ type: 'export-progress', progress: 50, message: 'エフェクトスタイルを取得中...' });
             const localEffectStyles = yield figma.getLocalEffectStylesAsync();
+            sendMessage({ type: 'export-progress', progress: 60, message: 'コンポーネントを検索中...' });
             const components = figma.root.findAll(node => node.type === 'COMPONENT');
             // カラースタイルの変換
+            sendMessage({ type: 'export-progress', progress: 65, message: `${localPaintStyles.length}個のカラースタイルを処理中...` });
             const colors = localPaintStyles.map(style => ({
                 name: style.name,
                 id: style.id,
@@ -41,6 +49,7 @@ function handleExportKit() {
                 description: style.description
             }));
             // テキストスタイルの変換
+            sendMessage({ type: 'export-progress', progress: 70, message: `${localTextStyles.length}個のテキストスタイルを処理中...` });
             const textStyles = localTextStyles.map(style => ({
                 name: style.name,
                 id: style.id,
@@ -55,6 +64,7 @@ function handleExportKit() {
                 description: style.description
             }));
             // エフェクトスタイルの変換
+            sendMessage({ type: 'export-progress', progress: 75, message: `${localEffectStyles.length}個のエフェクトスタイルを処理中...` });
             const effects = localEffectStyles.map(style => ({
                 name: style.name,
                 id: style.id,
@@ -62,6 +72,7 @@ function handleExportKit() {
                 description: style.description
             }));
             // コンポーネント情報の取得（詳細版）
+            sendMessage({ type: 'export-progress', progress: 80, message: `${Math.min(components.length, 100)}個のコンポーネントを処理中...` });
             const componentData = components.slice(0, 100).map(comp => ({
                 name: comp.name,
                 id: comp.id,
@@ -72,6 +83,7 @@ function handleExportKit() {
                 height: comp.height,
                 variantProperties: comp.variantProperties || undefined
             }));
+            sendMessage({ type: 'export-progress', progress: 85, message: 'デザインキットをまとめています...' });
             const designKit = {
                 name: fileName,
                 sourceFile: fileName,
@@ -82,6 +94,7 @@ function handleExportKit() {
                 components: componentData
             };
             // figma.clientStorageに保存
+            sendMessage({ type: 'export-progress', progress: 90, message: 'ストレージに保存中...' });
             const existingKits = yield getStoredKits();
             const kitIndex = existingKits.findIndex(k => k.name === fileName);
             if (kitIndex >= 0) {
@@ -91,6 +104,7 @@ function handleExportKit() {
                 existingKits.push(designKit);
             }
             yield figma.clientStorage.setAsync('designKits', existingKits);
+            sendMessage({ type: 'export-progress', progress: 100, message: 'エクスポート完了！' });
             sendMessage({
                 type: 'export-complete',
                 kitName: fileName

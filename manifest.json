@@ -1,24 +1,14 @@
 {
   "name": "D-kit",
-  "id": "d-kit",
+  "id": "1234567890123456789",
   "api": "1.0.0",
   "main": "src/code.js",
-  "capabilities": [],
-  "enableProposedApi": false,
+  "ui": "ui.html",
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["none"]
+  },
   "editorType": [
     "figma"
-  ],
-  "ui": "ui.html",
-  "menu": [
-    {
-      "name": "D-kit",
-      "command": "open"
-    }
-  ],
-  "networkAccess": {
-    "allowedDomains": [
-      "none"
-    ]
-  },
-  "documentAccess": "dynamic-page"
+  ]
 }
