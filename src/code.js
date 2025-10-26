@@ -61,12 +61,16 @@ function handleExportKit() {
                 effects: style.effects,
                 description: style.description
             }));
-            // コンポーネント情報の取得
-            const componentData = components.slice(0, 50).map(comp => ({
+            // コンポーネント情報の取得（詳細版）
+            const componentData = components.slice(0, 100).map(comp => ({
                 name: comp.name,
                 id: comp.id,
                 description: comp.description,
-                type: comp.type
+                type: comp.type,
+                key: comp.key,
+                width: comp.width,
+                height: comp.height,
+                variantProperties: comp.variantProperties || undefined
             }));
             const designKit = {
                 name: fileName,
@@ -252,6 +256,14 @@ function handleApplyKit(kitName) {
 // ノードとその子孫にデザインキットを適用
 function applyKitToNode(node, kit, changes) {
     return __awaiter(this, void 0, void 0, function* () {
+        // コンポーネントインスタンスの置き換え
+        if (node.type === 'INSTANCE') {
+            const replaced = yield replaceComponentInstance(node, kit, changes);
+            if (replaced) {
+                // 置き換えが成功した場合、子要素の処理はスキップ
+                return;
+            }
+        }
         // カラースタイルの適用
         if ('fills' in node && node.fills !== figma.mixed && Array.isArray(node.fills)) {
             const newFills = yield applyColorStyles(node, kit, changes);
@@ -497,6 +509,68 @@ function colorDistance(c1, c2) {
     return Math.sqrt(Math.pow(c1.r - c2.r, 2) +
         Math.pow(c1.g - c2.g, 2) +
         Math.pow(c1.b - c2.b, 2));
+}
+// コンポーネントインスタンスの置き換え
+function replaceComponentInstance(instance, kit, changes) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            // インスタンスの元のコンポーネント名を取得
+            const mainComponent = instance.mainComponent;
+            if (!mainComponent) {
+                return false;
+            }
+            const componentName = mainComponent.name;
+            // デザインキット内で同じ名前のコンポーネントを探す
+            const matchingComponent = kit.components.find(comp => comp.name === componentName);
+            if (!matchingComponent) {
+                // マッチするコンポーネントがない場合はスキップ
+                return false;
+            }
+            // コンポーネントをインポート（keyを使用）
+            const importedComponent = yield figma.importComponentByKeyAsync(matchingComponent.key);
+            if (!importedComponent) {
+                return false;
+            }
+            // 新しいインスタンスを作成
+            const newInstance = importedComponent.createInstance();
+            // 元のインスタンスの位置・サイズ・プロパティをコピー
+            newInstance.x = instance.x;
+            newInstance.y = instance.y;
+            newInstance.resize(instance.width, instance.height);
+            // バリアントプロパティをコピー（可能な場合）
+            if (instance.variantProperties && newInstance.variantProperties) {
+                try {
+                    newInstance.setProperties(instance.variantProperties);
+                }
+                catch (e) {
+                    // バリアントが一致しない場合はスキップ
+                }
+            }
+            // 親ノードから元のインスタンスを削除し、新しいインスタンスを追加
+            const parent = instance.parent;
+            if (parent && 'appendChild' in parent) {
+                const index = parent.children.indexOf(instance);
+                parent.insertChild(index, newInstance);
+                instance.remove();
+                // 変更を記録
+                changes.push({
+                    type: 'component',
+                    nodeId: newInstance.id,
+                    nodeName: newInstance.name,
+                    property: 'Component',
+                    before: `${componentName} (元のファイル)`,
+                    after: `${componentName} (デザインキット: ${kit.name})`,
+                    description: `コンポーネント「${componentName}」を置き換えました`
+                });
+                return true;
+            }
+            return false;
+        }
+        catch (error) {
+            console.error('Component replacement failed:', error);
+            return false;
+        }
+    });
 }
 // RGBを16進数に変換
 function rgbToHex(rgb) {
